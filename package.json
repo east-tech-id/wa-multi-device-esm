@@ -1,8 +1,12 @@
 {
-  "name": "wa-multi-session",
+  "name": "wa-multi-device-esm",
   "version": "4.0.0",
-  "description": "Multi Session Whatsapp Library",
+  "description": "Multi Device Whatsapp Library",
+  "type": "module",
   "main": "dist/index.js",
+  "exports": {
+    ".": "./dist/index.js"
+  },
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*"
@@ -12,7 +16,7 @@
     "start": "tsc && node ./dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "mimamch",
+  "author": "east-tech-id",
   "license": "ISC",
   "dependencies": {
     "@hapi/boom": "^10.0.1",
@@ -27,7 +31,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:mimamch/wa-multi-session.git"
+    "url": "git@github.com:east-tech-id/wa-multi-device-esm.git"
   },
   "devDependencies": {
     "@types/mime": "^3.0.1",

@@ -9,22 +9,23 @@ import path from "path";
 import { Boom } from "@hapi/boom";
 import qrTerminal from "qrcode-terminal";
 import fs from "fs";
+import pino from "pino";
 import type {
   MessageReceived,
   MessageUpdated,
   StartSessionParams,
   StartSessionWithPairingCodeParams,
-} from "../Types";
-import { CALLBACK_KEY, CREDENTIALS, Messages } from "../Defaults";
+} from "../Types/index.js";
+import { CALLBACK_KEY, CREDENTIALS, Messages } from "../Defaults/index.js";
 import {
   saveAudioHandler,
   saveDocumentHandler,
   saveImageHandler,
   saveVideoHandler,
-} from "../Utils/save-media";
-import { WhatsappError } from "../Error";
-import { parseMessageStatusCodeToReadable } from "../Utils/message-status";
-import { getSQLiteSessionIds, useSQLiteAuthState } from "../Store/Sqlite";
+} from "../Utils/save-media.js";
+import { WhatsappError } from "../Error/index.js";
+import { parseMessageStatusCodeToReadable } from "../Utils/message-status.js";
+import { getSQLiteSessionIds, useSQLiteAuthState } from "../Store/Sqlite.js";
 
 const sessions: Map<string, WASocket> = new Map();
 
@@ -32,7 +33,7 @@ const callback: Map<string, Function> = new Map();
 
 const retryCount: Map<string, number> = new Map();
 
-const P = require("pino")({
+const P = pino({
   level: "silent",
 });
 

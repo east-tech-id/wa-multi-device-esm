@@ -1,17 +1,17 @@
 import { proto, WAMessage } from "baileys";
-import { Messages } from "../Defaults";
-import { getSession } from "../Socket";
+import { Messages } from "../Defaults/index.js";
+import { getSession } from "../Socket/index.js";
 import {
   SendMediaTypes,
   SendMessageTypes,
   SendReadTypes,
   SendTypingTypes,
-} from "../Types";
-import { phoneToJid } from "../Utils";
-import { createDelay } from "../Utils/create-delay";
-import { isExist } from "../Utils/is-exist";
+} from "../Types/index.js";
+import { phoneToJid } from "../Utils/index.js";
+import { createDelay } from "../Utils/create-delay.js";
+import { isExist } from "../Utils/is-exist.js";
 import mime from "mime";
-import { WhatsappError } from "../Error";
+import { WhatsappError } from "../Error/index.js";
 
 export const sendTextMessage = async ({
   sessionId,

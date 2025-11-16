@@ -9,7 +9,7 @@ import {
   proto,
   SignalDataTypeMap,
 } from "baileys";
-import { CREDENTIALS } from "../Defaults";
+import { CREDENTIALS } from "../Defaults/index.js";
 
 let db: Database<sqlite3.Database, sqlite3.Statement> | null = null;
 

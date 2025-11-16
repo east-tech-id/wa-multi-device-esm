@@ -1,6 +1,6 @@
 import { downloadMediaMessage } from "baileys";
-import { MessageReceived } from "../Types";
-import ValidationError from "./error";
+import { MessageReceived } from "../Types/index.js";
+import ValidationError from "./error.js";
 import fs from "fs/promises";
 
 const saveMedia = async (path: string, data: Buffer) => {

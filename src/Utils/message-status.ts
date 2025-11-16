@@ -1,5 +1,5 @@
 import { proto } from "baileys";
-import { MessageUpdated } from "../Types";
+import { MessageUpdated } from "../Types/index.js";
 
 export const parseMessageStatusCodeToReadable = (
   code: proto.WebMessageInfo.Status
