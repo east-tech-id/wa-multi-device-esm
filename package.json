@@ -1,6 +1,6 @@
 {
   "name": "wa-multi-device-esm",
-  "version": "4.0.0",
+  "version": "1.0.0",
   "description": "Multi Device Whatsapp Library",
   "type": "module",
   "main": "dist/index.js",
@@ -13,6 +13,7 @@
   ],
   "scripts": {
     "build": "tsc",
+    "prepare": "npm run build",
     "start": "tsc && node ./dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -1,234 +1,144 @@
-# Whatsapp Multi Session - Connecting More Whatsapp Session in 1 App
+# WA Multi Device ESM
 
-Connecting Your app with Whatsapp Messaging
+Port ESM dari library WhatsApp Multi Session berbasis Baileys.
+Dibuat untuk menjalankan banyak akun WhatsApp dalam satu aplikasi tanpa Selenium atau browser automation.
 
-Lightweight library for whatsapp. Not require Selenium or any other browser.
+Repository: https://github.com/east-tech-id/wa-multi-device-esm
 
-Stand above [Baileys](https://github.com/WhiskeySockets/Baileys) Library.
+## 📦 Instalasi
 
-## Installation
-
-Install package using npm
-
-```
-npm install wa-multi-session@latest
+```bash
+npm install wa-multi-device-esm
 ```
 
-Then import your code
-
-Using JS Module
+### ES Module / TypeScript
 
 ```ts
-import * as whatsapp from "wa-multi-session";
+import * as whatsapp from "wa-multi-device-esm";
 ```
 
-or using CommonJS
+### CommonJS
 
-```ts
-const whatsapp = require("wa-multi-session");
+```js
+const whatsapp = require("wa-multi-device-esm");
 ```
 
-## Session Usage/Examples
+## 🚀 Manajemen Session
 
-Start New Session
+### Membuat Session Baru
 
 ```ts
-// create session with ID : mysessionid
-
 const session = await whatsapp.startSession("mysessionid");
-// Then, scan QR on terminal
 ```
 
-Get All Session ID
+### Mendapatkan Semua Session
 
 ```ts
 const sessions = whatsapp.getAllSession();
-// returning all session ID that has been created
 ```
 
-Get Session Data By ID
+### Mendapatkan Session Berdasarkan ID
 
 ```ts
 const session = whatsapp.getSession("mysessionid");
-// returning session data
 ```
 
-Load Session From Storage / Load Saved Session
+### Meload Session dari Penyimpanan
 
 ```ts
 whatsapp.loadSessionsFromStorage();
-// Start saved session without scan again
 ```
 
-## Messaging Usage/Examples
+## 💬 Mengirim Pesan
 
-Send Text Message
+### Text
 
 ```ts
 await whatsapp.sendTextMessage({
-  sessionId: "mysessionid", // session ID
-  to: "6281234567890", // always add country code (ex: 62)
-  text: "Hi There, This is Message from Server!", // message you want to send
-});
-```
-
-Send Image
-
-```ts
-const image = fs.readFileSync("./myimage.png"); // return Buffer
-const send = await whatsapp.sendImage({
-  sessionId: "session1",
+  sessionId: "mysessionid",
   to: "6281234567890",
-  text: "My Image Caption",
-  media: image, // can from URL too
+  text: "Halo dari server!"
 });
 ```
 
-Send Video
+### Gambar
 
 ```ts
-const video = fs.readFileSync("./myvideo.mp4"); // return Buffer
-const send = await whatsapp.sendVideo({
-  sessionId: "session1",
-  to: "6281234567890",
-  text: "My Video Caption",
-  media: video, // can from URL too
+const image = fs.readFileSync("./image.png");
+await whatsapp.sendImage({ sessionId:"mysessionid", to:"6281234567890", text:"caption", media:image });
+```
+
+### Video
+
+```ts
+const video = fs.readFileSync("./video.mp4");
+await whatsapp.sendVideo({ sessionId:"mysessionid", to:"6281234567890", text:"caption", media:video });
+```
+
+### Dokumen
+
+```ts
+const file = fs.readFileSync("file.pdf");
+await whatsapp.sendDocument({ sessionId:"mysessionid", to:"6281234567890", filename:"file.pdf", media:file });
+```
+
+### Voice Note
+
+```ts
+const audio = fs.readFileSync("voice.mp3");
+await whatsapp.sendVoiceNote({ sessionId:"mysessionid", to:"6281234567890", media:audio });
+```
+
+### Read Message
+
+```ts
+await whatsapp.readMessage({ sessionId:"mysessionid", key: msg.key });
+```
+
+### Typing Effect
+
+```ts
+await whatsapp.sendTyping({ sessionId:"mysessionid", to:"6281234567890", duration:3000 });
+```
+
+## 📡 Event Listener
+
+### Pesan Masuk
+```ts
+whatsapp.onMessageReceived((msg)=>{ console.log(msg); });
+```
+
+### QR Updated
+```ts
+whatsapp.onQRUpdated(({sessionId,qr})=>{ console.log(qr); });
+```
+
+### Session Connected
+```ts
+whatsapp.onConnected((id)=> console.log("connected:",id));
+```
+
+## 🗂️ Menyimpan Media
+
+```ts
+whatsapp.onMessageReceived(async (msg)=>{
+  if(msg.message?.imageMessage) msg.saveImage("./saved.jpg");
+  if(msg.message?.videoMessage) msg.saveVideo("./saved.mp4");
+  if(msg.message?.documentMessage) msg.saveDocument("./saved");
 });
 ```
 
-Send Document File
+## ⚙️ Konfigurasi
 
 ```ts
-const filename = "mydocument.docx";
-const document = fs.readFileSync(filename); // return Buffer
-const send = await whatsapp.sendDocument({
-  sessionId: "session1",
-  to: "6281234567890",
-  filename: filename,
-  media: document,
-  text: "Hei, Check this Document",
-});
+whatsapp.setCredentialsDir("my_creds_folder");
 ```
 
-Send Voice Note
+## 👤 Kontributor
 
-```ts
-const filename = "myaudio.mp3";
-const audio = fs.readFileSync(filename); // return Buffer
-const send = await whatsapp.sendVoiceNote({
-  sessionId: "session1",
-  to: "6281234567890",
-  media: audio,
-});
-```
+Original: https://github.com/mimamch  
+ESM Port: https://github.com/east-tech-id
 
-Read a Message
+## 💬 Feedback
 
-```ts
-await whatsapp.readMessage({
-  sessionId: "session1",
-  key: msg.key,
-});
-```
-
-Send Typing Effect
-
-```ts
-await whatsapp.sendTyping({
-  sessionId: "session1",
-  to: "6281234567890",
-  duration: 3000,
-});
-```
-
-## Listener Usage/Examples
-
-Add Listener/Callback When Receive a Message
-
-```ts
-whatsapp.onMessageReceived((msg) => {
-  console.log(`New Message Received On Session: ${msg.sessionId} >>>`, msg);
-});
-```
-
-Add Listener/Callback When QR Printed
-
-```ts
-whatsapp.onQRUpdated(({ sessionId, qr }) => {
-  console.log(qr);
-});
-```
-
-Add Listener/Callback When Session Connected
-
-```ts
-whatsapp.onConnected((sessionId) => {
-  console.log("session connected :" + sessionId);
-});
-```
-
-## Handling Incoming Message Examples
-
-```ts
-whatsapp.onMessageReceived(async (msg) => {
-  if (msg.key.fromMe || msg.key.remoteJid.includes("status")) return;
-  await whatsapp.readMessage({
-    sessionId: msg.sessionId,
-    key: msg.key,
-  });
-  await whatsapp.sendTyping({
-    sessionId: msg.sessionId,
-    to: msg.key.remoteJid,
-    duration: 3000,
-  });
-  await whatsapp.sendTextMessage({
-    sessionId: msg.sessionId,
-    to: msg.key.remoteJid,
-    text: "Hello!",
-    answering: msg, // for quoting message
-  });
-});
-```
-
-## Save Media Message (Image, Video, Document)
-
-```ts
-wa.onMessageReceived(async (msg) => {
-  if (msg.message?.imageMessage) {
-    // save image
-    msg.saveImage("./myimage.jpg");
-  }
-
-  if (msg.message?.videoMessage) {
-    // save video
-    msg.saveVideo("./myvideo.mp4");
-  }
-
-  if (msg.message?.documentMessage) {
-    // save document
-    msg.saveDocument("./mydocument"); // without extension
-  }
-});
-```
-
-## Optional Configuration Usage/Examples
-
-Set custom credentials directory
-
-```ts
-// default dir is "wa_credentials"
-whatsapp.setCredentialsDir("my_custom_dir");
-// or : credentials/mycreds
-```
-
-## Also Visit Headless Whatsapp Gateway API
-
-- [wa-gateway](https://www.github.com/mimamch/wa-gateway)
-
-## Authors
-
-- [@mimamch](https://www.github.com/mimamch)
-
-## Feedback or Support
-
-If you have any feedback or support, please reach out to me at mimamch28@gmail.com
+https://github.com/east-tech-id/wa-multi-device-esm/issues
